@@ -1,4 +1,11 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
+import { submitForm } from './apiCalls'
+
+const showSuccess = (responseMessage) => {
+    return(
+        alert(responseMessage)
+    )
+}
 
 const WildHabEventForm = () => {
 const [formValues, setFormValues] = useState({
@@ -6,26 +13,21 @@ const [formValues, setFormValues] = useState({
     sport: '',
     eventDuration: 0
 })
+const [responseMessage, setResponseMessage] = useState(undefined)
 
-    const submitForm = (event) => {
-        console.log(formValues)
-        fetch("https://wildhab-api-a.web.app/events", {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(formValues),
-        })
-            .then(result => result.json())
-            .then(data => console.log(JSON.stringify(data)))
-            .catch(error => console.log('error', error))
-        event.preventDefault()
+console.log('response message', responseMessage)
+
+useEffect(() => {
+    if(responseMessage !== undefined) {
+        showSuccess(responseMessage)
     }
+    return () => {setResponseMessage(undefined)}
+}, [responseMessage])
 
         return(
             <>
             <h1>Create Wild Habitat Event</h1>
-        <form onSubmit={(event) => submitForm(event)}>
+        <form onSubmit={(event) => submitForm(event, formValues, setResponseMessage)}>
         <label>
             Event Name:&nbsp;
             </label>
