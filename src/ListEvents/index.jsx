@@ -1,8 +1,14 @@
 import React, { useState, useEffect } from 'react'
 import { Col, Row, List } from 'antd';
 
-const addToFavorites = (eventId, setFavoriteEvents) => {
-    setFavoriteEvents(favorites => favorites.concat(eventId))
+const addToFavorites = (event, favoriteEvents, setFavoriteEvents) => {
+    //check if item is already in favorites list before adding
+    //iterate through favoriteEvents list
+    //if event.id is equal to favorite.id
+    //if not equal
+    //do add
+    const favoriteEventExists = favoriteEvents.some(favoriteEvent => event.id === favoriteEvent.id)
+    return favoriteEventExists ? undefined : setFavoriteEvents(favorites => favorites.concat(event))
 }
 
 const ListEvents = () => {
@@ -26,23 +32,33 @@ const ListEvents = () => {
     return(
     <>  
         <Row justify="space-around">
-            <Col xs={24} sm={12}>
-                <h1 style={{textAlign:"center"}}>Hello List Events</h1>
-            </Col>
-        </Row>
-        <Row justify="space-around">
             <Col >
                 <List
+                header={<div>All Wild Habitat Events</div>}
                     dataSource={eventsList}
                     renderItem={event => 
                     <List.Item 
                         key={event.id}
-                        actions={[<a key="add-to-favorites" onClick={() => addToFavorites(event.id, setFavoriteEvents)}>add to favorites</a>]}
+                        actions={[<a key="add-to-favorites" onClick={() => addToFavorites(event, favoriteEvents, setFavoriteEvents)}>add to favorites</a>]}
                         >
                         {event.eventName || event.name}, {event.sport}, Duration: {event.eventDuration}
                     </List.Item>
                     }
                 />
+            </Col>
+            <Col>
+               <List
+               header={<div>Favorite Wild Habitat Events</div>}
+               dataSource={favoriteEvents}
+               renderItem={favEvent => 
+            <List.Item
+                key={favEvent.id}
+                >
+            
+            {favEvent.eventName || favEvent.name}, {favEvent.sport}, Duration: {favEvent.eventDuration}
+            </List.Item>
+               } 
+               />     
             </Col>
         </Row>
     </>
