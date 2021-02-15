@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Col, Row, List } from 'antd';
+import {HeartOutlined, DeleteOutlined} from '@ant-design/icons'
 
 const addToFavorites = (event, favoriteEvents, setFavoriteEvents) => {
     //check if item is already in favorites list before adding
@@ -9,6 +10,17 @@ const addToFavorites = (event, favoriteEvents, setFavoriteEvents) => {
     //do add
     const favoriteEventExists = favoriteEvents.some(favoriteEvent => event.id === favoriteEvent.id)
     return favoriteEventExists ? undefined : setFavoriteEvents(favorites => favorites.concat(event))
+}
+
+const removeFromFavorites = (favEvent, favoriteEvents, setFavoriteEvents) => {
+    //get id to remove
+    //iterate through array
+    //find item that matches id 
+    //remove from array
+    const eventIndex = favoriteEvents.findIndex(event => event.id === favEvent.id)
+    const updatedFavoriteEvents = [...favoriteEvents]
+    updatedFavoriteEvents.splice(eventIndex, 1)
+    setFavoriteEvents(updatedFavoriteEvents)
 }
 
 const ListEvents = () => {
@@ -39,7 +51,7 @@ const ListEvents = () => {
                     renderItem={event => 
                     <List.Item 
                         key={event.id}
-                        actions={[<a key="add-to-favorites" onClick={() => addToFavorites(event, favoriteEvents, setFavoriteEvents)}>add to favorites</a>]}
+                        actions={[<a key="add-to-favorites" onClick={() => addToFavorites(event, favoriteEvents, setFavoriteEvents)}><HeartOutlined /></a>]}
                         >
                         {event.eventName || event.name}, {event.sport}, Duration: {event.eventDuration}
                     </List.Item>
@@ -53,8 +65,8 @@ const ListEvents = () => {
                renderItem={favEvent => 
             <List.Item
                 key={favEvent.id}
+                actions={[<a key="remove-from-favorites" onClick={() => removeFromFavorites(favEvent, favoriteEvents, setFavoriteEvents)}><DeleteOutlined /></a>]}
                 >
-            
             {favEvent.eventName || favEvent.name}, {favEvent.sport}, Duration: {favEvent.eventDuration}
             </List.Item>
                } 
