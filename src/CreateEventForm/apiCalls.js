@@ -14,5 +14,4 @@ export const submitForm = (event, formValues, setResponseMessage) => {
             data.statusCode < 300 ? setResponseMessage(data.message) : console.log('error')
         })
         .catch(error => console.log('error', error))
-    event.preventDefault()
 }

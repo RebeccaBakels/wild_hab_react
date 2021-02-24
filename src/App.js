@@ -10,7 +10,7 @@ const { Header, Content, Footer, Sider } = Layout;
 
 function App() {
   return (
-      <Router>
+    <Router>
     <Layout style={{minHeight: "100vh"}}>
         <Sider
       breakpoint="lg"
